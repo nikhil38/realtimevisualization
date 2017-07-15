@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>C3</title>
+    <meta charset="utf-8" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+      var counter =0 ;
+      var xAxis = ['x'];
+      var yAxis1 = ['data1'];
+      var yAxis2 = ['data2'];
+      
+      var chart = c3.generate({
+            data: {
+                    x: 'x',
+                    columns: [
+                         
+                             ],
+                    type: 'area-spline'
+                  }, 
+          zoom:{
+            enabled:true
+          },
+           subchart: {
+              show: true
+            },
+           axis: {
+                  x: {
+                      type: 'timeseries',
+                      tick: {
+                          format: '%Y-%m-%d'
+                      }
+                 }
+    }
+        });
+      
+      function generateRandomData(){
+          var date = new Date().getTime() + (86400000 *counter);
+  
+          var day  =  new Date(date).getDate();
+          if(day<10)
+            day = "0"+day;
+          var month = new Date(date).getMonth();
+          if(month < 10)
+            month = "0"+month;
+          var year = new Date(date).getFullYear().toString();
+          var dateString = year+"-"+ month+ "-" + day;
+          xAxis.push(dateString);
+          var yValue = Math.round(Math.random()*100) + 20;
+          yAxis1.push(yValue);
+        
+          yValue = yValue + Math.round(Math.random()*150)- 25;
+          yAxis2.push(yValue);
+          console.log("xAxis : ",xAxis);
+          console.log("yAxis : ",yAxis1);
+          console.log("yAxis : ",yAxis2);
+          counter++;
+          if(counter >=10 ){
+              xAxis.splice(1,1);
+              yAxis1.splice(1,1);
+              yAxis2.splice(1,1);
+            }
+        
+        chart.load({
+                columns: [
+                    xAxis,
+                    yAxis1,
+                    yAxis2
+                ],
+        });
+      }
+      
+      setInterval(function(){
+        generateRandomData();
+      },1000);
+      
+      
+        
+    </script>
+
+
+</body>
+</html>
